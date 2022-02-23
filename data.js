@@ -46,7 +46,8 @@ var dati = [
 var nexId = 10006;
 
 $(document).ready(function () {
-
+  
+//elimina
   $("body").on("click", ".btn-delete", function () {
     var td = $(this).parent("td");
     var id = td.data("id");
@@ -60,7 +61,7 @@ $(document).ready(function () {
   })
   displayTable();
 
-
+//aggiungi
   $("body").on("click", ".btn-add", function () {
     var firstName = $('#firstName').val();
     console.log(firstName);
@@ -82,6 +83,9 @@ $(document).ready(function () {
 
 
   });
+  //modifica
+  $("body").on("click", ".btn-modifica", function () {
+  });
 
 
 
@@ -98,6 +102,7 @@ function displayTable() {
     r += '<td>' + value.firstName + '</td>';
     r += '<td>' + value.lastName + '</td>';
     r += '<td data-id=' + value.id + '> <button type="button" class="btn btn-danger btn-delete">Elimina</button>' + '</td>';
+    r += '<td data-id=' + value.id + '> <button type="button" class="btn btn-warning btn-modifica">Modifica</button>' + '</td>';
     r += '<tr>' + '</tr>';
   });
   $("tbody").html(r);
