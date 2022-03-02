@@ -5,7 +5,6 @@ $(document).ready(function () {
 
   // url iniziale
   callServer("http://localhost:8080/employees");
-  
 //elimina
   $("body").on("click", ".btn-delete", function () {
     var td = $(this).parent("td");
@@ -43,6 +42,7 @@ $(document).ready(function () {
 
 
   });
+
   //modifica
   $("body").on("click", ".btn-modifica", function () {
 
@@ -63,7 +63,7 @@ $(document).ready(function () {
 
 
 });
-
+/*
 function callServer(url) {
   $.get( url, function( response ) {
     console.log(response);
@@ -72,6 +72,41 @@ function callServer(url) {
   });
 
 }
+*/
+function chiamataServer(url) {
+  $.ajax({
+    url: url,
+    data: data,
+    success: success,
+    dataType: dataType
+  });
+
+}
+
+
+$('#next').click(function(){
+  var next=response['_links']['next']['href']
+  console.log(next);
+  callServer(next);
+});
+
+$('#last').click(function(){
+  var next=response['_links']['last']['href']
+  console.log(last);
+  callServer(last);
+});
+
+$('#prev').click(function(){
+  var next=response['_links']['prev']['href']
+  console.log(prev);
+  callServer(prev);
+});
+
+$('#first').click(function(){
+  var next=response['_links']['first']['href']
+  console.log(first);
+  callServer(first);
+});
 
 function displayTable(dati) {
   var r = '';
