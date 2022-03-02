@@ -85,6 +85,18 @@ $(document).ready(function () {
   });
   //modifica
   $("body").on("click", ".btn-modifica", function () {
+
+    var modal= $('#modalmodifica');
+    modal.modal("show");
+    var td = $(this).parent("td");
+    var id = td.data("id");
+    for (var i = 0; i < dati.length; i++) {
+      if (dati[i].id == id) {
+        $('#nome').val(dati[i].firstName);
+        $('#cognome').val(dati[i].lastName);
+        break;
+      }
+    }
   });
 
 
