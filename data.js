@@ -1,10 +1,14 @@
 
 var nexId = 10006;
+var next;
+var last;
+var prev;
+var first;
 
 $(document).ready(function () {
 
   // url iniziale
-  callServer("http://localhost:8080/employees");
+  chiamataServer("http://localhost:8080/employees");
 //elimina
   $("body").on("click", ".btn-delete", function () {
     var td = $(this).parent("td");
@@ -15,7 +19,7 @@ $(document).ready(function () {
         break;
       }
     }
-    displayTable();
+    displayTachiamataServerble();
   })
   
 
@@ -63,49 +67,44 @@ $(document).ready(function () {
 
 
 });
-/*
-function callServer(url) {
-  $.get( url, function( response ) {
-    console.log(response);
-    displayTable(response["_embedded"]["employees"]);
-    //displayPagination(response["page"], response["_links"]);
-  });
 
-}
-*/
 function chiamataServer(url) {
   $.ajax({
     url: url,
-    data: data,
-    success: success,
-    dataType: dataType
+    success: function( response ) {
+      displayTable(response["_embedded"]["employees"]);
+      //displayPagination(response["page"], response["_links"]);
+      next = response['_links']['next']['href']
+      last=response['_links']['last']['href']
+      prev=response['_links']['prev']['href']
+      first=response['_links']['first']['href']
+      console.log(next);
+      
+    },
+    dataType: 'json'
   });
 
 }
 
 
 $('#next').click(function(){
-  var next=response['_links']['next']['href']
   console.log(next);
-  callServer(next);
+  chiamataServer(next);
 });
 
 $('#last').click(function(){
-  var next=response['_links']['last']['href']
   console.log(last);
-  callServer(last);
+  chiamataServer(last);
 });
 
 $('#prev').click(function(){
-  var next=response['_links']['prev']['href']
   console.log(prev);
-  callServer(prev);
+  chiamataServer(prev);
 });
 
 $('#first').click(function(){
-  var next=response['_links']['first']['href']
   console.log(first);
-  callServer(first);
+  chiamataServer(first);
 });
 
 function displayTable(dati) {
