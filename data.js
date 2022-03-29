@@ -70,37 +70,54 @@ $(document).ready(function () {
   });
 
   //modifica
-  $(".modifica").click(function () {
-    id = $(this).parent().data("id");
+  $("#confirm-modifica").click(function () {
 
-    for (var i = 0; i < data.length; i++) {
-        if (id == data[i].id) {
-            $("#nome-m").val(data[i].firstName);
-            $("#cognome-m").val(data[i].lastName);
-        }
+
+    var data = {
+      "id": id,
+      "firstName": $("#nome-m").val(),
+      "lastName": $("#cognome-m").val(),
+      "gender": "M"
     }
-});
-  $("body").on("click", "#btn-modifica", function () {
-      var nome = $("#nome").val();
-      var cognome = $("#cognome").val();
-      
-      console.log(id);
 
-      $.get( url+"/"+id, function(data) {
-          console.log(data);
-          data.firstName=nome;
-          data.lastName=cognome;
-          $.ajax({
-              type: "PUT", //si dice di vooler aggiornare dal db
-              url: url+'/'+id,// url + id dell'utente selezionato
-              data : JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                dataType: "JSON",
-                success: function(data){displayTable(url+"?page="+dati['page']['number']+"&size=20");}//e se ha successo(significa che è stata cancellata) si da la url all display table
-          })
-          })
-      
+    $.ajax({
+      type: "PUT", //si dice di vooler aggiornare dal db
+      url: 'http://localhost:8080/employees/'+id,// url + id dell'utente selezionato
+      data : JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "JSON",
+        success: function(data){
+          chiamataServer(url);
+
+          
+        }//e se ha successo(significa che è stata cancellata) si da la url all display table
+    })
+    var modal= $('#modalmodifica');
+    modal.modal("hide");
+
+
+
+    
   });
+
+
+  $("body").on("click", "#btn-modifica", function () {
+
+
+    $(this).parents("tr").fadeOut("fast");
+    var td = $(this).parent("td");
+    id = td.data("id");
+
+    
+    $.get('http://localhost:8080/employees/' + id, function(data) {
+
+      $("#nome-m").val(data.firstName);
+      $("#cognome-m").val(data.lastName);
+
+    });
+
+  });
+  
 });
 
 function chiamataServer(link) {
@@ -158,8 +175,3 @@ function displayTable(dati) {
   });
   $("tbody").html(r);
 }
-
-
-
-
-
